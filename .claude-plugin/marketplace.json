@@ -1,0 +1,18 @@
+{
+  "name": "slip",
+  "description": "把 AI 写好的字递给真人手机。无需注册，七天过期。",
+  "owner": {
+    "name": "sudo5zzb"
+  },
+  "plugins": [
+    {
+      "name": "slip",
+      "source": "./",
+      "strict": true,
+      "description": "Create a temporary Slip note and share a URL with a human outside the chat.",
+      "version": "1.0.0",
+      "homepage": "https://slip.viddy.eu.cc",
+      "keywords": ["slip", "share", "note", "wechat", "handoff-to-human"]
+    }
+  ]
+}

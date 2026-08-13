@@ -1,0 +1,9 @@
+{
+  "name": "slip",
+  "description": "Create a temporary Slip note and share a URL with a human outside the chat.",
+  "version": "1.0.0",
+  "author": {
+    "name": "sudo5zzb"
+  },
+  "skills": ["./skills/slip"]
+}
