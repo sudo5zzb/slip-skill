@@ -139,7 +139,6 @@ request() {
   local body="$TMPDIR_SLIP/body"
   local args=(
     -sS
-    --connect-timeout 8
     --proto-redir '=https'
     -o "$body"
     -w '%{http_code}'
@@ -150,17 +149,10 @@ request() {
   if [[ -n "$payload" ]]; then
     args+=(-H "Content-Type: application/json" --data-binary @"$payload")
   fi
-  # 先走系统代理（Clash fake-ip 时 DNS 只能经代理解析）。
-  # 代理没开会连不上 7890，再直连重试。
-  local code curl_ec
+  local code
   set +e
   code="$(curl "${args[@]}" "$url")"
-  curl_ec=$?
-  if [[ $curl_ec -ne 0 ]]; then
-    code="$(env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u http_proxy -u https_proxy -u all_proxy \
-      curl --noproxy '*' "${args[@]}" "$url")"
-    curl_ec=$?
-  fi
+  local curl_ec=$?
   set -e
   if [[ $curl_ec -ne 0 ]]; then
     die 1 "request failed"
