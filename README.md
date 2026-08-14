@@ -12,6 +12,10 @@
 npx skills add sudo5zzb/slip-skill
 ```
 
+```bash
+npx skills update slip
+```
+
 ## 对 agent 怎么说
 
 - 「用 Slip 发给我同事」
