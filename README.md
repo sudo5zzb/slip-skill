@@ -9,7 +9,7 @@
 ## 安装
 
 ```bash
-npx skills add sudo5zzb/slip-skill -g -y -a universal -a claude-code -a cursor -a grok -a codex -a gemini-cli
+npx skills add sudo5zzb/slip-skill
 ```
 
 ## 对 agent 怎么说
