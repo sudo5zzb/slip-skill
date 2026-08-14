@@ -11,7 +11,13 @@
 需要 **bash**、**curl**，以及 **python3 或 node**。macOS / Linux 直接用。Windows 请用 **WSL 或 Git Bash**，不要在原生 PowerShell 里双击。
 
 ```bash
-npx skills add sudo5zzb/slip-skill
+npx skills add sudo5zzb/slip-skill -g -y
+```
+
+不加 `-y` 会弹出「装到哪些 Agent」的选择器，直接回车即可，不是报错。只装某几个：
+
+```bash
+npx skills add sudo5zzb/slip-skill -g -y -a claude-code -a cursor -a grok -a codex
 ```
 
 Claude Code：
