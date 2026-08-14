@@ -43,15 +43,6 @@ Claude Code：`/plugin marketplace update`，必要时再 `/plugin install slip@
 
 微信里文本首屏可以读；若功能受限，用系统浏览器打开。
 
-## 不是什么
-
-- 不是网盘，不传文件
-- 不是飞书，不是长期文档
-- 不是 agent 之间的 handoff
-- 不要往里面写密码、token、密钥
-
-内容以明文存放，七天过期。知道链接的人都能读、能写。
-
 ## 许可证
 
 MIT
