@@ -1,6 +1,6 @@
 # Slip
 
-让 AI 把写好的字递到真人手机上。无需注册，七天过期。
+让 AI 把写好的字递到真人手机上。无需注册，七天过期（没有新消息才会清掉）。
 
 产品：<https://slip.viddy.eu.cc/?utm_source=github>
 

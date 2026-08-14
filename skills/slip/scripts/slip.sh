@@ -139,7 +139,7 @@ request() {
   local body="$TMPDIR_SLIP/body"
   local args=(
     -sS
-    --noproxy '*'
+    --connect-timeout 8
     --proto-redir '=https'
     -o "$body"
     -w '%{http_code}'
@@ -150,12 +150,17 @@ request() {
   if [[ -n "$payload" ]]; then
     args+=(-H "Content-Type: application/json" --data-binary @"$payload")
   fi
-  # Clash/V2Ray 常把 HTTPS_PROXY 指到 127.0.0.1:7890；代理没开时 curl 会直接失败。
-  local code
+  # 先走系统代理（Clash fake-ip 时 DNS 只能经代理解析）。
+  # 代理没开会连不上 7890，再直连重试。
+  local code curl_ec
   set +e
-  code="$(env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u http_proxy -u https_proxy -u all_proxy \
-    curl "${args[@]}" "$url")"
-  local curl_ec=$?
+  code="$(curl "${args[@]}" "$url")"
+  curl_ec=$?
+  if [[ $curl_ec -ne 0 ]]; then
+    code="$(env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u http_proxy -u https_proxy -u all_proxy \
+      curl --noproxy '*' "${args[@]}" "$url")"
+    curl_ec=$?
+  fi
   set -e
   if [[ $curl_ec -ne 0 ]]; then
     die 1 "request failed"
