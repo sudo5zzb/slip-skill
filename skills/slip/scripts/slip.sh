@@ -139,6 +139,7 @@ request() {
   local body="$TMPDIR_SLIP/body"
   local args=(
     -sS
+    --noproxy '*'
     --proto-redir '=https'
     -o "$body"
     -w '%{http_code}'
@@ -149,9 +150,11 @@ request() {
   if [[ -n "$payload" ]]; then
     args+=(-H "Content-Type: application/json" --data-binary @"$payload")
   fi
+  # Clash/V2Ray 常把 HTTPS_PROXY 指到 127.0.0.1:7890；代理没开时 curl 会直接失败。
   local code
   set +e
-  code="$(curl "${args[@]}" "$url")"
+  code="$(env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u http_proxy -u https_proxy -u all_proxy \
+    curl "${args[@]}" "$url")"
   local curl_ec=$?
   set -e
   if [[ $curl_ec -ne 0 ]]; then
