@@ -2,3 +2,6 @@
 *.tmp
 .idea/
 .vscode/
+
+# skills CLI 安装锁文件属于安装方项目，不属于分发源
+skills-lock.json
