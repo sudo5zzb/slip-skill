@@ -49,10 +49,19 @@ metadata:
 scripts/slip.sh push
 ```
 
-只有退出码 0 时，stdout 才会有一行 URL。此时对用户**只回这一行 URL 本身**——
-不要附加任何标语、解释、token、JSON 或 curl 输出；用户若追问，再用用户的语言简短说明。
+只有退出码 0 时，stdout 才会有一行 URL。此时对用户**只回**下面两行（按用户语言选一套，不要两套叠在一起）。不要解释过期实现，不要贴 token、JSON、curl。
+
+中文：
 
 ```
+Slip：无需注册，设备之间递一张纸条
+https://slip.omnimoke.com/{id}?utm_source=skill
+```
+
+英文：
+
+```
+Slip: pass a note between devices, no account
 https://slip.omnimoke.com/{id}?utm_source=skill
 ```
 

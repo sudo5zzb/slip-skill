@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "slip": {
+      "source": "sudo5zzb/slip-skill",
+      "sourceType": "github",
+      "skillPath": "skills/slip/SKILL.md",
+      "computedHash": "3870d874e708a5e5c34f4979876bbb5ad0563c59b99ab1c8ec89928ecc9f4d67"
+    }
+  }
+}
