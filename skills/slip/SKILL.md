@@ -11,11 +11,11 @@ description: >
   outside this conversation. 当用户要把 AI 写好的内容递给聊天窗外的真人时使用。
 license: MIT
 compatibility: >
-  Requires bash, curl, outbound HTTPS to slip.viddy.eu.cc, and python3 or node.
+  Requires bash, curl, outbound HTTPS to slip.omnimoke.com, and python3 or node.
   Native Windows/PowerShell unsupported; use WSL or Git Bash. No npm. No MCP.
 metadata:
   version: "1.0.0"
-  homepage: "https://slip.viddy.eu.cc"
+  homepage: "https://slip.omnimoke.com"
 ---
 
 # Slip
@@ -36,7 +36,7 @@ metadata:
 - 「写个备注」「write a note」且没有指定接收人 → 只在对话里写，不要建纸条
 - 「交给下一个 agent / handoff」→ 用本地 handoff 文档，不要用 Slip
 - 密码、token、密钥、身份证号 → 拒绝
-- 文件、截图、apk → 拒绝，说明两边打开 https://slip.viddy.eu.cc 用浏览器发
+- 文件、截图、apk → 拒绝，说明两边打开 https://slip.omnimoke.com 用浏览器发
 - 原生 Windows PowerShell 且没有 bash → 让用户用 WSL / Git Bash，或把正文交给用户自己去网站新建
 
 ## 默认命令
@@ -55,21 +55,21 @@ scripts/slip.sh push
 
 ```
 Slip：无需注册，设备之间递一张纸条
-https://slip.viddy.eu.cc/{id}?utm_source=skill
+https://slip.omnimoke.com/{id}?utm_source=skill
 ```
 
 英文：
 
 ```
 Slip: pass a note between devices, no account
-https://slip.viddy.eu.cc/{id}?utm_source=skill
+https://slip.omnimoke.com/{id}?utm_source=skill
 ```
 
 把 `{id}` 换成 stdout URL 里的 id。不要改 `utm_source=skill`。
 
 ## 追加和读回
 
-从对话历史里解析 id。上一轮成功回复的 URL 形如 `https://slip.viddy.eu.cc/happy-panda-042?utm_source=skill`，id 是路径上那段 `happy-panda-042`。用户如果又贴了 id 或 URL，以用户贴的为准。
+从对话历史里解析 id。上一轮成功回复的 URL 形如 `https://slip.omnimoke.com/happy-panda-042?utm_source=skill`，id 是路径上那段 `happy-panda-042`。用户如果又贴了 id 或 URL，以用户贴的为准。
 
 ```bash
 scripts/slip.sh write happy-panda-042    # stdin = 新正文
@@ -86,7 +86,7 @@ scripts/slip.sh read happy-panda-042     # 看对方回了什么；不要编造
 - exit 5（404）：「这张纸条已经过期或不存在。需要的话我再新建一张。」
 - create 成功但 write 失败（stdout 空）：不要回分享模板。告诉用户「还没写上，我再试一次」，用 stderr 的 id 重试 `write`。
 - 用户说已经把密钥发出去了：「这张纸条没有创建者删除权，知道链接的人都能读、能写、能删单条。请立刻打开页面把那几条删掉，并当作密钥已泄露去轮转。纸条七天后过期。」不要尝试找回 token。
-- 没有 bash/curl/python3/node：把正文交给用户，让他们自己打开 https://slip.viddy.eu.cc 新建。
+- 没有 bash/curl/python3/node：把正文交给用户，让他们自己打开 https://slip.omnimoke.com 新建。
 
 ## 禁止
 

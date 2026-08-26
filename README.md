@@ -4,9 +4,9 @@ Let AI pass a note to someone’s phone. No account. Expires after seven idle da
 
 让 AI 把写好的字递到真人手机上。无需注册，七天过期（没有新消息才会清掉）。
 
-https://slip.viddy.eu.cc/?utm_source=github
+https://slip.omnimoke.com/?utm_source=github
 
-![Slip](https://slip.viddy.eu.cc/assets/slip-og.jpg)
+![Slip](https://slip.omnimoke.com/assets/slip-og.jpg)
 
 ## Install
 

@@ -3,7 +3,7 @@
 # Never print owner_token. Do not use curl -f.
 set -euo pipefail
 
-SLIP_API="${SLIP_API:-https://slip.viddy.eu.cc}"
+SLIP_API="${SLIP_API:-https://slip.omnimoke.com}"
 SLIP_API="${SLIP_API%/}"
 SLIP_UA="slip-skill/1.0"
 USER_ID_RE='^[a-z]+-[a-z]+-[0-9]{3}$'
