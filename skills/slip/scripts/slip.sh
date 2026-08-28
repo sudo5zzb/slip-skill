@@ -5,14 +5,16 @@ set -euo pipefail
 
 SLIP_API="${SLIP_API:-https://slip.omnimoke.com}"
 SLIP_API="${SLIP_API%/}"
-SLIP_UA="slip-skill/1.0"
+SLIP_UA="slip-skill/1.2"
 USER_ID_RE='^[a-z]+-[a-z]+-[0-9]{3}$'
 DEFAULT_MAX_CHARS=50000
+DEFAULT_NOTE_CHARS=10000
 
 usage() {
   cat >&2 <<'EOF'
 usage:
-  slip.sh push              # stdin = note text; stdout = one URL
+  slip.sh toss              # stdin = note text; stdout = one /n/ URL (one-tap note)
+  slip.sh push              # stdin = note text; stdout = one URL (two-way slip)
   slip.sh write <id>        # stdin = note text
   slip.sh read <id>         # stdout = messages, --- separated
   slip.sh create            # empty slip; stdout = one URL (prefer push)
@@ -75,6 +77,18 @@ text=open(sys.argv[1],encoding="utf-8").read()
 open(sys.argv[2],"w",encoding="utf-8").write(json.dumps({"text":text},ensure_ascii=False))' "$infile" "$outfile"
   else
     node -e 'const fs=require("fs"); const text=fs.readFileSync(process.argv[1],"utf8"); fs.writeFileSync(process.argv[2], JSON.stringify({text}));' "$infile" "$outfile"
+  fi
+}
+
+# 即撕纸条按 Markdown 投递：对方打开即见渲染后的页面
+encode_note_json() {
+  local infile="$1" outfile="$2"
+  if [[ "$JSON_BIN" == python3 ]]; then
+    python3 -c 'import json,sys
+text=open(sys.argv[1],encoding="utf-8").read()
+open(sys.argv[2],"w",encoding="utf-8").write(json.dumps({"text":text,"format":"md"},ensure_ascii=False))' "$infile" "$outfile"
+  else
+    node -e 'const fs=require("fs"); const text=fs.readFileSync(process.argv[1],"utf8"); fs.writeFileSync(process.argv[2], JSON.stringify({text,format:"md"}));' "$infile" "$outfile"
   fi
 }
 
@@ -177,6 +191,10 @@ share_url() {
   printf '%s/%s?utm_source=skill\n' "$SLIP_API" "$1"
 }
 
+share_note_url() {
+  printf '%s/n/%s?utm_source=skill\n' "$SLIP_API" "$1"
+}
+
 validate_user_id() {
   local id="$1"
   [[ "$id" =~ $USER_ID_RE ]] || die 2 "invalid id"
@@ -214,6 +232,37 @@ check_length() {
   fi
 }
 
+MAX_NOTE_CHARS=""
+load_note_chars() {
+  [[ -n "$MAX_NOTE_CHARS" ]] && return 0
+  MAX_NOTE_CHARS="$DEFAULT_NOTE_CHARS"
+  request GET "$SLIP_API/api/config" || true
+  if [[ "${HTTP_CODE:-}" == 200 ]]; then
+    local n
+    if n="$(
+      if [[ "$JSON_BIN" == python3 ]]; then
+        python3 -c 'import json,sys
+d=json.load(open(sys.argv[1],encoding="utf-8"))
+print((d.get("limits") or {}).get("maxNoteChars") or "")' "$HTTP_BODY"
+      else
+        node -e 'const fs=require("fs"); const d=JSON.parse(fs.readFileSync(process.argv[1],"utf8")); const n=(d.limits||{}).maxNoteChars; process.stdout.write(n==null?"":String(n));' "$HTTP_BODY"
+      fi
+    )" && [[ "$n" =~ ^[0-9]+$ ]] && [[ "$n" -gt 0 ]]; then
+      MAX_NOTE_CHARS="$n"
+    fi
+  fi
+}
+
+check_note_length() {
+  local file="$1"
+  load_note_chars
+  local n
+  n="$(utf16_len "$file")"
+  if [[ "$n" -gt "$MAX_NOTE_CHARS" ]]; then
+    die 4 "note too long (${n} > ${MAX_NOTE_CHARS} UTF-16 code units)"
+  fi
+}
+
 create_slip() {
   request POST "$SLIP_API/api/slip"
   [[ "$HTTP_CODE" == 200 ]] || fail_http
@@ -228,6 +277,22 @@ write_msg() {
   local payload="$TMPDIR_SLIP/payload.json"
   encode_text_json "$infile" "$payload"
   request POST "$SLIP_API/api/slip/${id}/msg" "$payload"
+}
+
+cmd_toss() {
+  local infile="$TMPDIR_SLIP/stdin.txt"
+  cat >"$infile"
+  if is_blank_file "$infile"; then
+    die 2 "empty"
+  fi
+  check_note_length "$infile"
+  local payload="$TMPDIR_SLIP/payload.json"
+  encode_note_json "$infile" "$payload"
+  request POST "$SLIP_API/api/note" "$payload"
+  [[ "$HTTP_CODE" == 200 ]] || fail_http
+  local id
+  id="$(json_get "$HTTP_BODY" id)" || die 1 "toss: missing id"
+  share_note_url "$id"
 }
 
 cmd_push() {
@@ -282,13 +347,14 @@ main() {
   local cmd="${1:-}"
   case "$cmd" in
     -h|--help|"") usage; exit 2 ;;
-    push|create|write|read) ;;
+    toss|push|create|write|read) ;;
     *) usage; exit 2 ;;
   esac
   require_tools
   setup_tmp
   shift || true
   case "$cmd" in
+    toss) cmd_toss ;;
     push) cmd_push ;;
     create) cmd_create ;;
     write) cmd_write "${1:-}" ;;
