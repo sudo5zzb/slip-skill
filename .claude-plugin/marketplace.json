@@ -1,6 +1,6 @@
 {
   "name": "slip",
-  "description": "把 AI 写好的字递给真人手机。无需注册，七天过期。",
+  "description": "把 AI 写好的字递给真人手机。即撕纸条 24 小时自动消失；对话纸条七天无活动后过期。",
   "owner": {
     "name": "sudo5zzb"
   },
@@ -9,8 +9,8 @@
       "name": "slip",
       "source": "./",
       "strict": true,
-      "description": "Create a temporary Slip note and share a URL with a human outside the chat.",
-      "version": "1.2.0",
+      "description": "Send a rendered one-tap note or open a temporary two-way Slip with a human.",
+      "version": "1.3.0",
       "homepage": "https://slip.omnimoke.com",
       "keywords": ["slip", "share", "note", "wechat", "handoff-to-human"]
     }

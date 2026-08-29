@@ -17,7 +17,7 @@ compatibility: >
   Requires bash, curl, outbound HTTPS to slip.omnimoke.com, and python3 or node.
   Native Windows/PowerShell unsupported; use WSL or Git Bash. No npm. No MCP.
 metadata:
-  version: "1.2.0"
+  version: "1.3.0"
   homepage: "https://slip.omnimoke.com"
 ---
 
@@ -73,7 +73,9 @@ https://slip.omnimoke.com/n/{id}?utm_source=skill
 把 `{id}` 换成 stdout URL 里的 id。不要改 `utm_source=skill`。
 
 toss 是单请求原子创建：要么拿到 URL，要么没有，不存在「创建成功但没写上」的半成品。
-Markdown 语法直接写进正文即可，对方打开会看到渲染后的页面。
+Markdown 语法直接写进正文即可，对方打开会看到渲染后的页面：标题、列表、表格、引用、
+代码块，以及 `- [ ] / - [x]` 待办清单（会画成真正的勾选框，适合验收清单）。
+图片会被安全策略去掉，所以不要写 `![](url)`——需要配图就直接给链接。
 
 ## push：对话纸条（需要对方回复时）
 

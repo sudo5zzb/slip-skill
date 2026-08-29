@@ -6,7 +6,9 @@ Let AI pass a note to someone’s phone. No account. `toss` sends a one-tap note
 
 https://slip.omnimoke.com/?utm_source=github
 
-![Slip](https://slip.omnimoke.com/assets/slip-og.jpg)
+<p align="center">
+  <img src="docs/slip-toss-mobile.png" alt="A rendered one-tap Slip note on a phone" width="430">
+</p>
 
 ## Install
 
@@ -33,14 +35,14 @@ The installer will ask which AI to add it to. Pick the ones you use, then confir
    - `把这段递到我手机`
 4. It should reply with one URL. Send that URL.
 
-One-way delivery (checklists, summaries, code) gets a one-tap note under `/n/…`; when a reply is expected it opens a two-way slip. Do not say “write a note” with no recipient — that stays in the chat.
+One-way delivery (checklists, summaries, code) gets a one-tap note under `/n/…`; when a reply is expected it opens a two-way slip. Headings, lists, tables, quotes, code blocks, and task lists render as a formatted page. Images are intentionally removed, so share image URLs as links. Do not say “write a note” with no recipient — that stays in the chat.
 
 1. 运行上面的安装命令。
 2. **新开**一轮对话。旧对话不一定会加载 skill。
 3. AI 写完后说「用 Slip 发给我同事」或「递到我手机」。
 4. 成功时只回一行链接。把链接发出去。
 
-单向给人看的内容（清单、总结、代码）会得到一张 `/n/…` 即撕纸条；需要对方回复时会开一张可往来的对话纸条。不要只说「写个备注」——那种不会建纸条。
+单向给人看的内容（清单、总结、代码）会得到一张 `/n/…` 即撕纸条；需要对方回复时会开一张可往来的对话纸条。标题、列表、表格、引用、代码块和任务清单都会渲染成排版好的页面。图片会被安全策略移除，需要配图时应直接给图片链接。不要只说「写个备注」——那种不会建纸条。
 
 ## What they see
 

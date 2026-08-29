@@ -5,7 +5,7 @@ set -euo pipefail
 
 SLIP_API="${SLIP_API:-https://slip.omnimoke.com}"
 SLIP_API="${SLIP_API%/}"
-SLIP_UA="slip-skill/1.2"
+SLIP_UA="slip-skill/1.3"
 USER_ID_RE='^[a-z]+-[a-z]+-[0-9]{3}$'
 DEFAULT_MAX_CHARS=50000
 DEFAULT_NOTE_CHARS=10000
